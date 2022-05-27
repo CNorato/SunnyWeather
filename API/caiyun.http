@@ -1,0 +1,4 @@
+GET https://api.caiyunapp.com/v2.5/opTA3bN8uKKlWta4/121.6544,25.1552/realtime.json
+
+###
+GET https://api.caiyunapp.com/v2.5/opTA3bN8uKKlWta4/121.6544,25.1552/forecast.json
