@@ -1,6 +1,7 @@
 package com.sunnyweather.android.ui.place
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sunnyweather.android.R
 import com.sunnyweather.android.databinding.FragmentPlaceBinding
+import com.sunnyweather.android.ui.weather.WeatherActivity
 
 class PlaceFragment : Fragment(R.layout.fragment_place) {
 
@@ -26,6 +28,17 @@ class PlaceFragment : Fragment(R.layout.fragment_place) {
         requireActivity().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onCreate(owner: LifecycleOwner) {
                 super.onCreate(owner)
+                if (viewModel.isPlaceSaved()) {
+                    val place = viewModel.getSavedPlace()
+                    val intent = Intent(context, WeatherActivity::class.java).apply {
+                        putExtra("location_lng", place.location.lng)
+                        putExtra("location_lat", place.location.lat)
+                        putExtra("place_name", place.name)
+                    }
+                    startActivity(intent)
+                    activity?.finish()
+                    return
+                }
                 viewModel.placeLiveData.observe(this@PlaceFragment, Observer { result ->
                     val places = result.getOrNull()
                     if (places != null) {
